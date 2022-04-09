@@ -1,0 +1,69 @@
+scn aaaOnHitCIBSEvent
+
+ref rTarget
+int iHitLocation
+ref rHitAttacker
+ref rAttackerWeapon
+ref rBackpack 
+ref rMessage
+
+float fHitHealthDamage
+float fDamageToBackpack
+float fFinalBackpackCond
+float fBackpackDT
+
+float fBackpackDamageMultiplier
+float fBackpackUnEquipOnBreak
+float fBackpackConditionSystemNPCsEnabled
+
+begin Function {}
+	set rTarget to this
+
+	if (rTarget.GetEquippedEx CIBSBackpackList == 0) || (GetHitLocation != 0) ; Only apply to CIBS Backpacks and torso
+		return
+	endif
+
+	let fBackpackDamageMultiplier := GetINIFloat "Gameplay:fBackpackDamageMultiplier" "CIBS.ini"
+	let fBackpackUnEquipOnBreak := GetINIFloat "Gameplay:fBackpackUnEquipOnBreak " "CIBS.ini"
+	let fBackpackConditionSystemNPCsEnabled := GetINIFloat "Gameplay:fBackpackConditionSystemNPCsEnabled " "CIBS.ini"
+
+	if fBackpackConditionSystemNPCsEnabled < 1 && (rTarget != playerREF)
+		PrintDebug "Target is NPC, no hit"
+		return 
+	endif 
+
+
+	PrintDebug "Hit!"
+	let iHitLocation := GetHitLocation
+	let rHitAttacker := GetHitAttacker
+	let rBackpack := rTarget.GetEquippedItemRef 7
+	let fHitHealthDamage := GetHitHealthDamage
+	let fBackpackDT := GetArmorDT rBackpack
+
+	PrintDebug "GetConditionDamagePenalty: " + $GetConditionDamagePenalty
+	PrintDebug "fHitHealthDamage: " + $fHitHealthDamage
+	let fDamageToBackpack := (GetNumericGameSetting "fDamageToArmorPercentage") * fHitHealthDamage * GetConditionDamagePenalty
+
+	PrintDebug "DT: " + $fBackpackDT
+	
+	let fDamageToBackpack := GetMaxOf (fDamageToBackpack - fBackpackDT) 0
+
+	PrintDebug "Before multiplier: " + $fDamageToBackpack 
+	let fDamageToBackpack *= fBackpackDamageMultiplier
+	PrintDebug "After multiplier:" + $fDamageToBackpack 
+	let fFinalBackpackCond := GetMaxOf ((GetEquippedCurrentHealth 7) - fDamageToBackpack) 0
+	PrintDebug "fFinalBackpackCond: " + $fFinalBackpackCond
+	rTarget.SetEquippedCurrentHealth fFinalBackpackCond 7
+	
+	if fFinalBackpackCond == 0
+		if (rTarget == playerREF)
+			RunScriptSnippet 0 "PlaySound WPNBreak"
+			let rMessage := CIBSBrokenMsg
+			MessageExAlt 2, "Interface\Icons\Message Icons\glow_message_vaultboy_sad.dds|%n%n", rBackpack, rMessage
+		endif 
+		if fBackpackUnEquipOnBreak
+			rBackpack.UnEquipMe
+		endif
+	endif
+
+end

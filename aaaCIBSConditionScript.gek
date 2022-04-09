@@ -1,0 +1,14 @@
+scn aaaCIBSConditionScript
+
+float fBackpackConditionSystemEnabled
+
+begin Function {}
+
+	let fBackpackConditionSystemEnabled := GetINIFloat "Gameplay:fBackpackConditionSystemEnabled" "CIBS.ini"
+	
+	if fBackpackConditionSystemEnabled > 0
+	    print "Backpack Condition System is enabled: " + $fBackpackConditionSystemEnabled
+	    SetOnHitEventHandler aaaOnHitCIBSEvent 1 
+	endif
+
+end

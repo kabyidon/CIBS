@@ -1,0 +1,45 @@
+scn aaaCIBSQuestScript
+
+ref rBackpack
+
+begin MenuMode 4
+    SetDebugMode 0
+    ;SetDebugMode 1
+    if GetDebugMode 
+        PlayerREF.AddItem CIBSCaravanBackpackBLACK  1
+        PlayerREF.AddItem CIBSCaravanBackpackRED 1
+        PlayerREF.AddItem CIBSCaravanBackpackBLUE 1
+        PlayerREF.AddItem CIBSCaravanBackpackDESERT 1
+        PlayerREF.AddItem CIBSCaravanBackpack 1
+        PlayerREF.AddItem CIBSFieldBackpackBLACK 1
+        PlayerREF.AddItem CIBSFieldBackpackBROWN 1
+        PlayerREF.AddItem CIBSFieldBackpackBLUE 1
+        PlayerREF.AddItem CIBSFieldBackpackGREY 1
+        PlayerREF.AddItem CIBSFieldBackpackYELLOW 1
+        PlayerREF.AddItem CIBSFieldBackpackGREEN 1
+        PlayerREF.AddItem CIBSFieldBackpackNCR 1
+        PlayerREF.AddItem CIBSFieldBackpackLEGION 1
+        PlayerREF.AddItem CIBSFieldBackpackVAULT 1
+        PlayerREF.AddItem CIBSFieldBackpackWESTTEK 1
+        PlayerREF.AddItem CIBSFieldBackpackWESTTEK 1
+        PlayerREF.AddItem CIBSFieldBackpackMOJAVE 1
+        PlayerREF.AddItem CIBSFieldBackpackBROTHERHOOD 1
+        PlayerREF.AddItem CIBSFieldBackpackENCLAVE 1
+    endif
+    if GetGameRestarted
+        call aaaCIBSConditionScript
+        call aaaCIBSStatsScript
+        call aaaCIBSDistributionScript
+        call aaaCIBSDistributionScript2
+    endif
+
+end
+
+begin GameMode
+    if GetGameLoaded
+        ; fix weird bug where stats don't apply until equip 
+        if PlayerREF.GetEquippedEx CIBSBackpackList > 0
+            let rBackpack := PlayerREF.GetEquippedItemRef 7
+        endif 
+    endif
+end

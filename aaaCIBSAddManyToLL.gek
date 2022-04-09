@@ -1,0 +1,11 @@
+scn aaaCIBSAddManyToLL
+
+ref rLeveledList
+ref rItem
+
+Begin Function { rLeveledList, rItem }
+	LeveledListAddForm rLeveledList rItem 1 1 0.25
+	LeveledListAddForm rLeveledList rItem 1 1 0.3
+	LeveledListAddForm rLeveledList rItem 1 1 0.35
+	LeveledListAddForm rLeveledList rItem 1 1 0.4
+End 

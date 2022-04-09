@@ -1,0 +1,98 @@
+scn aaaCIBSDistributionScript2
+ 
+array_var aEntry 
+array_var aTempArray
+array_var aTempArray2
+
+ref rNCRBackpackLeveledList
+ref rNCRHelmetLeveledList
+
+ref rLegionBackpackLeveledList
+ref rLegionHelmetLeveledList
+ref rLegionHelmetExplorerLeveledList
+
+ref rCaravanBackpackLeveledList
+ref rFieldLeveledList
+ref rRaidLeveledList
+
+ref rCaravaneerOutfitLeveledList
+ref rLootWeaponCaravaneerLeveledList
+ref rLootWeaponCaravaneerWithBackpackLeveledList
+
+ref rBoomerLeveledList
+ref rAllBackpackLeveledList
+
+ref rMercenaryLeveledList
+ref rMercenaryClothingLeveledList
+ref rCaravaneerOutfitLeveledList
+ref rLeatherLeveledList
+ref rCombatLeveledList
+
+ref rNewLeveledList
+ref rEntryValue
+ref rNPC
+
+float fBackpackLLSystemEnabled
+float fNCRBackpackLLChanceNone
+float fLegionBackpackLLChanceNone
+float fCaravanBackpackLLChanceNone
+float fFieldBackpackLLChanceNone
+float fRaidBackpackLLChanceNone
+float fBoomerBackpackLLChanceNone
+float fAllBackpackLLChanceNone
+
+begin Function{}
+
+	; Add backpacks to NPCs
+	; BaseAddItem CIBSFieldBackpackMOJAVE 1 PrimmDeadCourier
+	BaseAddItemHealth CIBSFieldBackpackSUNSET 1 0.45 AllenMarks 
+	BaseAddItemHealth CIBSCaravanBackpackBLACK 1 0.4 SSHQMalcolmHolmes
+	BaseAddItemHealth CIBSFieldBackpackNCR 1 0.45 1E10ofSpades
+	BaseAddItemHealth CIBSFieldBackpackWESTTEK 1 0.45 Keely
+	BaseAddItemHealth CIBSFieldBackpackNCR 1 0.45 2COHanrahan
+	BaseAddItemHealth CIBSFieldBackpackNCR 1 0.4 1ESharecropperPrivateOrtega
+	BaseAddItemHealth CIBSFieldBackpackNCR 1 0.4 VCFHJamesSexton
+	BaseAddItemHealth CIBSFieldBackpackNUKACOLA 1 0.4 ScorpionsGangYvette
+	BaseAddItemHealth CIBSFieldBackpackNUKACOLA 1 0.6 VOVSewerLuke ; "Blind Luke"
+	BaseAddItemHealth CIBSFieldBackpackNUKACOLA 1 0.6 VOVSewerJillDead ; Sweet Jill
+	BaseAddItemHealth CIBSFieldBackpackVAULT 1 0.6 VVault34Horowitz
+	BaseAddItemHealth CIBSFieldBackpackNCR 1 0.45 CampSearchlightPvtEdwards
+	BaseAddItemHealth CIBSFieldBackpackLEGION 1 0.45 NVCCCanyonRunner
+	BaseAddItemHealth CIBSFieldBackpackLEGION 1 0.45 NVLegionaryAlexus
+	BaseAddItemHealth CIBSFieldBackpackGREY 1 0.45 VMS21aHiredGun01
+	BaseAddItemHealth CIBSFieldBackpackPURPLE 1 0.45 GSSunnySmiles
+	BaseAddItemHealth CIBSFieldBackpackBROTHERHOOD 1 0.8 MelissaWatkins
+	BaseAddItemHealth CIBSFieldBackpackBROTHERHOOD 1 0.8 HVScout01
+	BaseAddItemHealth CIBSFieldBackpackBROTHERHOOD 1 0.8 HVScout02
+	BaseAddItemHealth CIBSFieldBackpackBROTHERHOOD 1 0.8 HVScout03
+	BaseAddItemHealth CIBSFieldBackpackWESTTEK 1 0.45 JacobstownNorton
+	BaseAddItemHealth CIBSFieldBackpackNUKACOLA 1 0.45 SSHQTomas
+	BaseAddItemHealth CIBSFieldBackpackFOLLOWERS 1 0.45 SafehouseFollowersDoctor
+	BaseAddItemHealth CIBSFieldBackpackLEGION 1 0.45 SafehouseLegionVeteran
+	BaseAddItemHealth CIBSFieldBackpackNCR 1 0.45 SafehouseNCRRanger
+	BaseAddItemHealth CIBSFieldBackpackNUKACOLA 1 0.45 Harland
+	BaseAddItemHealth CIBSFieldBackpackNUKACOLA 1 0.45 VMSTopsLonesomeDrifter
+	BaseAddItemHealth CIBSFieldBackpackNUKACOLA 1 0.45 1EFiendViolet
+
+	BaseAddItemHealth CIBSFieldBackpackEnclave 1 1 VLootLockerEnclaveGen04
+	BaseAddItemHealth CIBSFieldBackpackEnclave 1 1 VLootLockerEnclaveGen05
+	BaseAddItemHealth CIBSFieldBackpackEnclave 1 1 VLootLockerEnclaveGen06
+
+	BaseAddItemHealth CIBSFieldBackpackVAULT 1 1 VLootArmorLockerVaultRustGen01
+	BaseAddItemHealth CIBSFieldBackpackWESTTEK 1 0.9 VLootArmorLockerVaultRustGen01
+	BaseAddItemHealth CIBSFieldBackpackVAULT 1 0.9 VLootArmorLockerVaultRustGen02
+	BaseAddItemHealth CIBSFieldBackpackVAULT 1 0.9 VLootArmorLockerVaultRustGen03
+	BaseAddItemHealth CIBSFieldBackpackVAULT 1 0.9 VLootArmorLockerVaultRustGen04
+
+	; Vendors
+	BaseAddItemHealth CIBSFieldBackpackNCR 3 0.45 VendorChestLacey 
+	BaseAddItemHealth CIBSFieldBackpackFOLLOWERS 2 0.6 VendorContainerDoctorUsanagi
+	BaseAddItemHealth CIBSFieldBackpackNCR 3 0.45 VendorChestBuriedQuartermasterMayes 
+	BaseAddItemHealth CIBSFieldBackpackBROTHERHOOD 2 0.45 VendorContainerTorres 
+	BaseAddItemHealth CIBSFieldBackpackVAULT 2 0.45 VendorContainerSarahWeintraub
+	BaseAddItemHealth rAllBackpackLeveledList 4 0.45 VendorMiguelPawnshopTrunk 
+	BaseAddItemHealth rAllBackpackLeveledList 3 0.3 VendorContainerChet
+	BaseAddItemHealth rAllBackpackLeveledList 4 0.45 VendorContainerJohnsonNash
+
+	print "CIBS Distribution Script 2 ran successfully."
+end
