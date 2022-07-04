@@ -23,35 +23,5 @@ ref rEnchFieldBackpackMojave
 
 begin Function {}
 	; This script only changes names, because changing stats using scripts results in a lot of problems especially when loading saves. 
-	
-	LNSetName "Caravan Backpack Green" CIBSCaravanBackpack
-	LNSetName "Caravan Backpack Black" CIBSCaravanBackpackBLACK 
-	LNSetName "Caravan Backpack Blue" CIBSCaravanBackpackBLUE
-	LNSetName "Caravan Backpack Desert" CIBSCaravanBackpackDESERT
-	LNSetName "Caravan Backpack Red" CIBSCaravanBackpackRED
-
-	LNSetName "Field Backpack Black" CIBSFieldBackpackBLACK
-	LNSetName "Field Backpack Blue" CIBSFieldBackpackBLUE
-	LNSetName "Field Backpack Brown" CIBSFieldBackpackBROWN
-	LNSetName "Field Backpack Camo" CIBSFieldBackpackCAMO
-	LNSetName "Field Backpack Green" CIBSFieldBackpackGREEN
-	LNSetName "Field Backpack Grey" CIBSFieldBackpackGREY
-	LNSetName "Field Backpack Pink" CIBSFieldBackpackPINK
-	LNSetName "Field Backpack Purple" CIBSFieldBackpackPURPLE
-	LNSetName "Field Backpack Red" CIBSFieldBackpackRED
-	LNSetName "Field Backpack Yellow" CIBSFieldBackpackYELLOW
-
-	LNSetName "Brotherhood Backpack" CIBSFieldBackpackBROTHERHOOD
-	LNSetName "Enclave Backpack" CIBSFieldBackpackENCLAVE
-	LNSetName "Followers Backpack" CIBSFieldBackpackFOLLOWERS
-	LNSetName "Legion Backpack" CIBSFieldBackpackLEGION
-	LNSetName "Mojave Express Backpack" CIBSFieldBackpackMOJAVE
-	LNSetName "NCR Backpack" CIBSFieldBackpackNCR
-	LNSetName "Nuka-Cola Backpack" CIBSFieldBackpackNUKACOLA
-	LNSetName "RobCo Backpack" CIBSFieldBackpackROBCO
-	LNSetName "Sunset Sarsparilla Backpack" CIBSFieldBackpackROBCO
-	LNSetName "Vault Backpack" CIBSFieldBackpackVAULT
-	LNSetName "WestTek Backpack" CIBSFieldBackpackWESTTEK
-
 end
 

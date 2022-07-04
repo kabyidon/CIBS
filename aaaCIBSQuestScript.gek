@@ -2,9 +2,18 @@ scn aaaCIBSQuestScript
 
 ref rBackpack
 
+; referenced eddorsul's guide on menumode 4
+
+begin GameMode
+    StopQuest CIBSQuest ; No zombies allowed!
+end
+
 begin MenuMode 4
+    StopQuest CIBSQuest
+    
     SetDebugMode 0
     ;SetDebugMode 1
+
     if GetDebugMode 
         PlayerREF.AddItem CIBSCaravanBackpackBLACK  1
         PlayerREF.AddItem CIBSCaravanBackpackRED 1
@@ -26,20 +35,11 @@ begin MenuMode 4
         PlayerREF.AddItem CIBSFieldBackpackBROTHERHOOD 1
         PlayerREF.AddItem CIBSFieldBackpackENCLAVE 1
     endif
+
     if GetGameRestarted
         call aaaCIBSConditionScript
-        call aaaCIBSStatsScript
         call aaaCIBSDistributionScript
         call aaaCIBSDistributionScript2
     endif
 
-end
-
-begin GameMode
-    if GetGameLoaded
-        ; fix weird bug where stats don't apply until equip 
-        if PlayerREF.GetEquippedEx CIBSBackpackList > 0
-            let rBackpack := PlayerREF.GetEquippedItemRef 7
-        endif 
-    endif
 end

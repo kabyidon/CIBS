@@ -7,32 +7,6 @@ array_var aTempArray
 array_var aTempArray2
 
 ref rEmptyLL
-
-ref rNCRBackpackLeveledList
-ref rNCRHelmetLeveledList
-
-ref rLegionBackpackLeveledList
-ref rLegionHelmetLeveledList
-ref rLegionHelmetExplorerLeveledList
-
-ref rCaravanBackpackLeveledList
-ref rFieldLeveledList
-ref rRaidLeveledList
-
-ref rCaravaneerOutfitLeveledList
-ref rLootWeaponCaravaneerLeveledList
-ref rLootWeaponCaravaneerWithBackpackLeveledList
-
-ref rBoomerLeveledList
-ref rAllBackpackLeveledList
-
-ref rMercenaryLeveledList
-ref rMercenaryClothingLeveledList
-ref rCaravaneerOutfitLeveledList
-ref rLeatherLeveledList
-ref rCombatLeveledList
-
-ref rNewLeveledList
 ref rEntryValue
 ref rNPC
 
@@ -41,11 +15,8 @@ float fNCRBackpackLLChanceNone
 float fLegionBackpackLLChanceNone
 float fCaravanBackpackLLChanceNone
 float fFieldBackpackLLChanceNone
-float fRaidBackpackLLChanceNone
-float fBoomerBackpackLLChanceNone
-float fAllBackpackLLChanceNone
+float fDuffleBagLLChanceNone
 
-float fKARPSOLBackpackEnabled 
 
 begin Function{}
 
@@ -54,17 +25,13 @@ begin Function{}
 	let fLegionBackpackLLChanceNone := GetINIFloat "Gameplay:fLegionBackpackLLChanceNone" "CIBS.ini"
 	let fCaravanBackpackLLChanceNone := GetINIFloat "Gameplay:fCaravanBackpackLLChanceNone" "CIBS.ini"
 	let fFieldBackpackLLChanceNone := GetINIFloat "Gameplay:fFieldBackpackLLChanceNone" "CIBS.ini"
-	let fRaidBackpackLLChanceNone := GetINIFloat "Gameplay:fRaidBackpackLLChanceNone" "CIBS.ini"
-	let fBoomerBackpackLLChanceNone := GetINIFloat "Gameplay:fBoomerBackpackLLChanceNone" "CIBS.ini"
-	let fAllBackpackLLChanceNone := GetINIFloat "Gameplay:fAllBackpackLLChanceNone" "CIBS.ini"
+	let fDuffleBagLLChanceNone := GetINIFloat "Gameplay:fDuffleBagLLChanceNone" "CIBS.ini"
 
 	print "Backpack Leveled List Distribution is enabled: " + $fBackpackLLSystemEnabled
 	
 	if fBackpackLLSystemEnabled < 1
 		return
 	endif
-	
-	let fKARPSOLBackpackEnabled := (eval (IsModLoaded "1nivVSLArmors.esp" && GetINIFloat "Addons:fKARPSOLBackpackEnabled" "CIBS.ini"))
 	
 	let rEmptyLL := TempCloneForm AndaleFridgeLL
     LeveledListRemoveForm rEmptyLL StrangeMeat
@@ -78,241 +45,61 @@ begin Function{}
 	
 	; Make NCR Leveled List (ADD TO HELMET LEVELED LISTS)
 
-	let rNCRBackpackLeveledList := TempCloneForm rEmptyLL
-	call aaaCIBSAddManyToLL rNCRBackpackLeveledList CIBSFieldBackpackNCR
-	PrintDebug "fNCRBackpackLLChanceNone: " + $fNCRBackpackLLChanceNone
-	SetChanceNone rNCRBackpackLeveledList fNCRBackpackLLChanceNone 
-
-	let rNCRHelmetLeveledList := TempCloneForm rEmptyLL
-	SetLeveledListFlags rNCRHelmetLeveledList 4
-	LeveledListAddForm rNCRHelmetLeveledList rNCRBackpackLeveledList 1 1 1
-	LeveledListAddForm rNCRHelmetLeveledList HelmetNVNCRTrooper 1 1 0.45
-	SetChanceNone rNCRHelmetLeveledList 0 
-
-	let aTempArray := Ar_List CondNVTrooperHelmet CondNVTrooperHelmetGoggles
-
-	; NCR 
-	foreach aEntry <- aTempArray
-		let rEntryValue := aEntry["value"]
-		LeveledListAddForm rEntryValue rNCRHelmetLeveledList 1 1 1
-		LeveledListAddForm rEntryValue rNCRHelmetLeveledList 1 1 1
-		LeveledListAddForm rEntryValue rNCRHelmetLeveledList 1 1 1
-		LeveledListAddForm rEntryValue rNCRHelmetLeveledList 1 1 1
-		LeveledListAddForm rEntryValue rNCRHelmetLeveledList 1 1 1
-		LeveledListAddForm rEntryValue rNCRHelmetLeveledList 1 1 1
-		LeveledListAddForm rEntryValue rNCRHelmetLeveledList 1 1 1
-		LeveledListAddForm rEntryValue rNCRHelmetLeveledList 1 1 1
-	loop
-	
-	; Make Legion Leveled List (ADD TO HELMET LEVELED LISTS)
-	let rLegionBackpackLeveledList := TempCloneForm rEmptyLL
-	call aaaCIBSAddManyToLL rLegionBackpackLeveledList CIBSFieldBackpackLegion
-	PrintDebug "fLegionBackpackLLChanceNone: " + $fLegionBackpackLLChanceNone
-	SetChanceNone rLegionBackpackLeveledList fLegionBackpackLLChanceNone
-
-	; Make Legion Leveled List (ADD TO HELMET LEVELED LISTS)
-	let rLegionHelmetLeveledList := TempCloneForm rEmptyLL
-	LeveledListAddForm rLegionHelmetLeveledList rLegionBackpackLeveledList 1 1 1
-	LeveledListAddForm rLegionHelmetLeveledList CondLegionHelmetVeteran 1 1 0.45 
-	SetChanceNone rLegionHelmetLeveledList 0
-
-	; Legion
-	; let aTempArray := Ar_List LootLegionMoney25 LootLegionMoney50
-	let aTempArray := Ar_List CondLegionHelmetVeteran
-
-	foreach aEntry <- aTempArray
-		let rEntryValue := aEntry["value"]
-		LeveledListAddForm rEntryValue rLegionHelmetLeveledList 1 1 1
-		LeveledListAddForm rEntryValue rLegionHelmetLeveledList 1 1 1
-		LeveledListAddForm rEntryValue rLegionHelmetLeveledList 1 1 1
-		LeveledListAddForm rEntryValue rLegionHelmetLeveledList 1 1 1
-		LeveledListAddForm rEntryValue rLegionHelmetLeveledList 1 1 1
-	loop
-
-	let rLegionHelmetExplorerLeveledList := TempCloneForm AndaleFridgeLL
-	LeveledListRemoveForm rLegionHelmetExplorerLeveledList StrangeMeat
-	SetLeveledListFlags rLegionHelmetExplorerLeveledList 4
-	LeveledListAddForm rLegionHelmetExplorerLeveledList rLegionBackpackLeveledList 1 1 1
-	LeveledListAddForm rLegionHelmetExplorerLeveledList CondLegionHelmetExplorer 1 1 0.45 
-
-	let aTempArray := Ar_List CondLegionHelmetExplorer
-
-	foreach aEntry <- aTempArray
-		let rEntryValue := aEntry["value"]
-		LeveledListAddForm rEntryValue rLegionHelmetExplorerLeveledList 1 1 1
-		LeveledListAddForm rEntryValue rLegionHelmetExplorerLeveledList 1 1 1
-		LeveledListAddForm rEntryValue rLegionHelmetExplorerLeveledList 1 1 1
-		LeveledListAddForm rEntryValue rLegionHelmetExplorerLeveledList 1 1 1
-		LeveledListAddForm rEntryValue rLegionHelmetExplorerLeveledList 1 1 1
-	loop
-
-	; Make Caravan Leveled List 
-	let rCaravanBackpackLeveledList := TempCloneForm AndaleFridgeLL
-	LeveledListRemoveForm rCaravanBackpackLeveledList StrangeMeat
-	SetLeveledListFlags rCaravanBackpackLeveledList 3
-	call aaaCIBSAddManyToLL rCaravanBackpackLeveledList CIBSCaravanBackpack
-	call aaaCIBSAddManyToLL rCaravanBackpackLeveledList CIBSCaravanBackpackBLACK
-	call aaaCIBSAddManyToLL rCaravanBackpackLeveledList CIBSCaravanBackpackBLUE
-	call aaaCIBSAddManyToLL rCaravanBackpackLeveledList CIBSCaravanBackpackDESERT
 	PrintDebug "fCaravanBackpackLLChanceNone: " + $fCaravanBackpackLLChanceNone
-	SetChanceNone rCaravanBackpackLeveledList fCaravanBackpackLLChanceNone ;change this
+	SetChanceNone CIBSCondCaravanBackpackColors fCaravanBackpackLLChanceNone ;change this
 
-	; Make Field Leveled List
-	let rFieldLeveledList := TempCloneForm AndaleFridgeLL
-	LeveledListRemoveForm rFieldLeveledList StrangeMeat
-	SetLeveledListFlags rFieldLeveledList 3
-	LeveledListAddForm rFieldLeveledList CIBSFieldBackpackBROWN 1 1 0.3
-	LeveledListAddForm rFieldLeveledList CIBSFieldBackpackBLACK 1 1 0.45
-	LeveledListAddForm rFieldLeveledList CIBSFieldBackpackBLUE 1 1 0.3
-	LeveledListAddForm rFieldLeveledList CIBSFieldBackpackGREY 1 1 0.3
-	LeveledListAddForm rFieldLeveledList CIBSFieldBackpackYELLOW 1 1 0.3
-	LeveledListAddForm rFieldLeveledList CIBSFieldBackpackGREEN 1 1 0.3
-	LeveledListAddForm rFieldLeveledList CIBSFieldBackpackGREY 1 1 0.6
-	LeveledListAddForm rFieldLeveledList CIBSFieldBackpackPURPLE 1 1 0.6
-	LeveledListAddForm rFieldLeveledList CIBSFieldBackpackPINK 1 1 0.3
-	SetChanceNone rFieldLeveledList fFieldBackpackLLChanceNone ;change this
+	PrintDebug "fFieldBackpackLLChanceNone: " + $fFieldBackpackLLChanceNone
+	SetChanceNone CIBSCondFieldBackpackColors fFieldBackpackLLChanceNone ;change this
 
-	; Make Raider Leveled List
-	let rRaidLeveledList := TempCloneForm AndaleFridgeLL
-	LeveledListRemoveForm rRaidLeveledList StrangeMeat
-	SetLeveledListFlags rRaidLeveledList 3
-	call aaaCIBSAddManyToLL rRaidLeveledList CIBSFieldBackpackRED
-	call aaaCIBSAddManyToLL rRaidLeveledList CIBSFieldBackpackVAULT
-	SetChanceNone rRaidLeveledList fRaidBackpackLLChanceNone ;change this
+	PrintDebug "fDuffleBagLLChanceNone: " + $fDuffleBagLLChanceNone
+	SetChanceNone CIBSCondBagDuffleColors fDuffleBagLLChanceNone ;change this
 
-	; Make Boomer Leveled List
-	let rBoomerLeveledList := TempCloneForm AndaleFridgeLL
-	LeveledListRemoveForm rBoomerLeveledList StrangeMeat
-	SetLeveledListFlags rBoomerLeveledList 3
-	LeveledListAddForm rBoomerLeveledList CIBSFieldBackpackWESTTEK 1 1 0.3
-	call aaaCIBSAddManyToLL rBoomerLeveledList CIBSFieldBackpackVAULT
-	call aaaCIBSAddManyToLL rBoomerLeveledList CIBSFieldBackpackCAMO
-	SetChanceNone rBoomerLeveledList fBoomerBackpackLLChanceNone ;change this
+	PrintDebug "fNCRBackpackLLChanceNone: " + $fNCRBackpackLLChanceNone
+	SetChanceNone CIBSCondFieldBackpackNCR fNCRBackpackLLChanceNone 
 
-	let aTempArray := Ar_List BoomerWeaponsBackup 
-	foreach aEntry <- aTempArray
-		let rEntryValue := aEntry["value"]
-		LeveledListAddForm rEntryValue rBoomerLeveledList 1 1 1
-		LeveledListAddForm rEntryValue rBoomerLeveledList 1 1 1 
-		LeveledListAddForm rEntryValue rBoomerLeveledList 1 1 1
-		LeveledListAddForm rEntryValue rBoomerLeveledList 1 1 1
-		LeveledListAddForm rEntryValue rBoomerLeveledList 1 1 1 
-		LeveledListAddForm rEntryValue rBoomerLeveledList 1 1 1
+	PrintDebug "fLegionBackpackLLChanceNone: " + $fLegionBackpackLLChanceNone
+	SetChanceNone CIBSCondBagDuffleLEGION fLegionBackpackLLChanceNone
+
+	foreach aEntry <- (Ar_Range 0, 8)
+		LeveledListAddForm CondNVTrooperArmor CIBSBWNVTrooperArmor 1 1 0.0
+	loop
+
+	foreach aEntry <- (Ar_Range 0, 8)
+		LeveledListAddForm CondLegionArmorExplorer CIBSBWCondLegionArmorExplorer 1 1 0.0
+	loop
+
+	foreach aEntry <- (Ar_Range 0, 8)
+		LeveledListAddForm CondLegionArmorVeteran CIBSBWCondLegionArmorVeteran 1 1 0.0
+	loop
+
+	foreach aEntry <- (Ar_Range 0, 4)
+		LeveledListAddForm BoomerWeaponsBackup CIBSCondFieldBackpackVault 1 1 0.0
 	loop
 
 	; Make all Backpack Leveled List
-	let rAllBackpackLeveledList := TempCloneForm AndaleFridgeLL
-	LeveledListRemoveForm rAllBackpackLeveledList StrangeMeat
-	SetLeveledListFlags rAllBackpackLeveledList 3
-	LeveledListAddForm rAllBackpackLeveledList rFieldLeveledList 1 1 1
-	LeveledListAddForm rAllBackpackLeveledList rCaravanBackpackLeveledList 1 1 1
-	SetChanceNone rAllBackpackLeveledList fAllBackpackLLChanceNone ;change this
-
-	; Make Mercenary Leveled List 
-	let rMercenaryClothingLeveledList := TempCloneForm AndaleFridgeLL
-	LeveledListRemoveForm rMercenaryClothingLeveledList StrangeMeat
-	SetLeveledListFlags rMercenaryClothingLeveledList 3
-	LeveledListAddForm rMercenaryClothingLeveledList OutfitMerc01 1 1 0.45
-	LeveledListAddForm rMercenaryClothingLeveledList OutfitMerc02 1 1 0.45
-	LeveledListAddForm rMercenaryClothingLeveledList OutfitMerc03 1 1 0.45
-	LeveledListAddForm rMercenaryClothingLeveledList OutfitMerc04 1 1 0.45
-	LeveledListAddForm rMercenaryClothingLeveledList OutfitMerc05 1 1 0.45
-	LeveledListAddForm rMercenaryClothingLeveledList OutfitMerc06 1 1 0.45 
-	SetChanceNone rMercenaryClothingLeveledList 0 ;change this
-
-	; Make Mercenary Leveled List (ADD TO HELMET LEVELED LISTS)
-	let rMercenaryLeveledList := TempCloneForm AndaleFridgeLL
-	LeveledListRemoveForm rMercenaryLeveledList StrangeMeat
-	SetLeveledListFlags rMercenaryLeveledList 4
-	LeveledListAddForm rMercenaryLeveledList rFieldLeveledList 1 1 1
-	LeveledListAddForm rMercenaryLeveledList rMercenaryClothingLeveledList 1 1 1 
-	SetChanceNone rMercenaryLeveledList 0
+	SetChanceNone CIBSLootBackpackColorsAll 0 
 
 	let aTempArray := Ar_List CondOutfitMerc1 CondOutfitMerc2 CondOutfitMerc3 CondOutfitMerc4 CondOutfitMerc5 CondOutfitMerc6
 
-	foreach aEntry <- aTempArray
-		let rEntryValue := aEntry["value"]
-		LeveledListAddForm rEntryValue rMercenaryLeveledList 1 1 1
-		LeveledListAddForm rEntryValue rMercenaryLeveledList 1 1 1
-		LeveledListAddForm rEntryValue rMercenaryLeveledList 1 1 1
-		LeveledListAddForm rEntryValue rMercenaryLeveledList 1 1 1
-		LeveledListAddForm rEntryValue rMercenaryLeveledList 1 1 1
-		LeveledListAddForm rEntryValue rMercenaryLeveledList 1 1 1
+	let aTempArray2 := Ar_List CIBSBWCondOutfitMerc1 CIBSBWCondOutfitMerc2 CIBSBWCondOutfitMerc3 CIBSBWCondOutfitMerc4 CIBSBWCondOutfitMerc5 CIBSBWCondOutfitMerc6
+
+	foreach aEntry <- (Ar_Range 0, 4)
+		; doesn't matter if we use key or value here, they're the same
+		LeveledListAddForm (aTempArray[aEntry["key"]]) (aTempArray2[aEntry["key"]]) 1 1 0.0
 	loop
-
-	; Make Caravaneer Outfit Leveled List 
-	let rCaravaneerOutfitLeveledList := TempCloneForm AndaleFridgeLL
-	LeveledListRemoveForm rCaravaneerOutfitLeveledList StrangeMeat
-	SetLeveledListFlags rCaravaneerOutfitLeveledList 4
-	LeveledListAddForm rCaravaneerOutfitLeveledList rAllBackpackLeveledList 1 1 1
-	LeveledListAddForm rCaravaneerOutfitLeveledList OutfitRepublican01 1 1 0.45 
-	SetChanceNone rCaravaneerOutfitLeveledList 0
-
-	let aTempArray := Ar_List CondOutfitRepublican01
-
-	foreach aEntry <- aTempArray
-		let rEntryValue := aEntry["value"]
-		LeveledListAddForm rEntryValue rCaravaneerOutfitLeveledList 1 1 1
-		LeveledListAddForm rEntryValue rCaravaneerOutfitLeveledList 1 1 1
-	loop
-
-	; Make LootWeaponCaravaneer Leveled List 
-	let rLootWeaponCaravaneerLeveledList := TempCloneForm AndaleFridgeLL
-	LeveledListRemoveForm rLootWeaponCaravaneerLeveledList StrangeMeat
-	SetLeveledListFlags rLootWeaponCaravaneerLeveledList 3
-	LeveledListAddForm rLootWeaponCaravaneerLeveledList CondBrassKnucklesLoot 1 1 1
-	LeveledListAddForm rLootWeaponCaravaneerLeveledList CondKnifeLoot 1 1 1
-	LeveledListAddForm rLootWeaponCaravaneerLeveledList WithAmmoNV357RevolverLoot 1 1 1
-	LeveledListAddForm rLootWeaponCaravaneerLeveledList WithAmmoNVCaravanShotgunLoot 1 1 1
-	LeveledListAddForm rLootWeaponCaravaneerLeveledList WithAmmoNVVarmintRifleLoot 1 1 1
-	LeveledListAddForm rLootWeaponCaravaneerLeveledList WithAmmoNV9mmPistolLoot 1 1 1 
-	SetChanceNone rLootWeaponCaravaneerLeveledList 0 
-
-	let rLootWeaponCaravaneerWithBackpackLeveledList := TempCloneForm AndaleFridgeLL
-	LeveledListRemoveForm rLootWeaponCaravaneerWithBackpackLeveledList StrangeMeat
-	SetLeveledListFlags rLootWeaponCaravaneerWithBackpackLeveledList 4
-	LeveledListAddForm rLootWeaponCaravaneerWithBackpackLeveledList rLootWeaponCaravaneerLeveledList 1 1 1
-	LeveledListAddForm rLootWeaponCaravaneerWithBackpackLeveledList rCaravanBackpackLeveledList 1 1 1 
-	SetChanceNone rLootWeaponCaravaneerWithBackpackLeveledList 0
-
-	LeveledListAddForm LootWeaponCaravaneer rLootWeaponCaravaneerWithBackpackLeveledList 1 1 1
-	LeveledListAddForm LootWeaponCaravaneer rLootWeaponCaravaneerWithBackpackLeveledList 1 1 1
-	LeveledListAddForm LootWeaponCaravaneer rLootWeaponCaravaneerWithBackpackLeveledList 1 1 1
-	LeveledListAddForm LootWeaponCaravaneer rLootWeaponCaravaneerWithBackpackLeveledList 1 1 1
 
 	; Make Leather Armor Leveled List 
-	let rLeatherLeveledList := TempCloneForm AndaleFridgeLL
-	LeveledListRemoveForm rLeatherLeveledList StrangeMeat
-	SetLeveledListFlags rLeatherLeveledList 4
-	LeveledListAddForm rLeatherLeveledList rFieldLeveledList 1 1 1
-	LeveledListAddForm rLeatherLeveledList ArmorLeather 1 1 0.2
-	SetChanceNone rLeatherLeveledList 0
+	SetChanceNone CIBSBWCondLeatherArmor 0
 
-	let aTempArray := Ar_List CondLeatherArmor
-
-	foreach aEntry <- aTempArray
-		let rEntryValue := aEntry["value"]
-		LeveledListAddForm rEntryValue rLeatherLeveledList 1 1 1
-		LeveledListAddForm rEntryValue rLeatherLeveledList 1 1 1
-		LeveledListAddForm rEntryValue rLeatherLeveledList 1 1 1
-		LeveledListAddForm rEntryValue rLeatherLeveledList 1 1 1
-		LeveledListAddForm rEntryValue rLeatherLeveledList 1 1 1
+	foreach aEntry <- (Ar_Range 0, 4)
+		LeveledListAddForm CondLeatherArmor CIBSBWCondLeatherArmor  1 1 0.0
 	loop
 
 	; Make Combat Armor Leveled List 
-	let rCombatLeveledList := TempCloneForm AndaleFridgeLL
-	LeveledListRemoveForm rCombatLeveledList StrangeMeat
-	SetLeveledListFlags rCombatLeveledList 4
-	LeveledListAddForm rCombatLeveledList rFieldLeveledList 1 1 1
-	LeveledListAddForm rCombatLeveledList ArmorCombat 1 1 0.2
-	SetChanceNone rCombatLeveledList 0
+	SetChanceNone CIBSBWCondCombatArmor 0
 
-	let aTempArray := Ar_List CondCombatArmor
-
-	foreach aEntry <- aTempArray
-		let rEntryValue := aEntry["value"]
-		LeveledListAddForm rEntryValue rCombatLeveledList 1 1 1
-		LeveledListAddForm rEntryValue rCombatLeveledList 1 1 1
+	foreach aEntry <- (Ar_Range 0, 4)
+		LeveledListAddForm CondCombatArmor CIBSBWCondCombatArmor  1 1 0.0
 	loop
 
 	; Can't add to these
@@ -334,7 +121,7 @@ begin Function{}
 	foreach aEntry <- aTempArray
 		let rNPC := aEntry["value"]
 		PrintDebug (GetEditorID rNPC)
-		BaseAddItem rCaravanBackpackLeveledList 1 rNPC
+		BaseAddItem CIBSCondCaravanBackpackColors 1 rNPC
 	loop
 
 	; Random Wasteland Loot and vendors
@@ -342,6 +129,13 @@ begin Function{}
 	let aTempArray := Ar_List ClutterSchoolValue ClutterSchoolJunk ClutterOfficeValue 
 	let aTempArray2 := Ar_List ClutterLibraryValue  ClutterGhoulValue ClutterHouseholdSmallNVUsed
 	Ar_Cat aTempArray aTempArray2
+
+	foreach aEntry <- aTempArray
+		let rEntryValue := aEntry["value"]
+		LeveledListAddForm rEntryValue CIBSCondFieldBackpackColors 1 1 0.0
+		LeveledListAddForm rEntryValue CIBSCondBagDuffleColors 1 1 0.0
+	loop
+
 	let aTempArray2 := Ar_List VendorCaravanApparelBasic1List VendorCaravanApparelBasic2List LL0NPCPowderGangerTrinkets 
 	Ar_Cat aTempArray aTempArray2
 	let aTempArray2 := Ar_List LL0NPCPowderGangerTrinkets50 VendorArmorTier2 VendorArmorTier3 VendorArmorCommon 
@@ -349,7 +143,8 @@ begin Function{}
 
 	foreach aEntry <- aTempArray
 		let rEntryValue := aEntry["value"]
-		LeveledListAddForm rEntryValue rFieldLeveledList 1 1 1
+		LeveledListAddForm rEntryValue CIBSCondFieldBackpackColors 1 1 0.0
+		LeveledListAddForm rEntryValue CIBSCondBagDuffleColors 1 1 0.0
 	loop
 
 	; 188 NCR Trading Post 
@@ -358,27 +153,27 @@ begin Function{}
 
 	foreach aEntry <- aTempArray
 		let rEntryValue := aEntry["value"]
-		LeveledListAddForm rEntryValue rCaravanBackpackLeveledList 1 1 1
-		LeveledListAddForm rEntryValue rFieldLeveledList 1 1 1
-		LeveledListAddForm rEntryValue rNCRBackpackLeveledList 1 1 1
+		LeveledListAddForm rEntryValue CIBSLootBackpackColorsAll 1 1 0.0
+		LeveledListAddForm rEntryValue CIBSCondFieldBackpackColors 1 1 0.0
+		LeveledListAddForm rEntryValue CIBSCondFieldBackpackNCR 1 1 0.0
 	loop
 
-	; Raiders and Wastelanders
+	; Raiders
 
 	let aTempArray := Ar_List Raider1ArmorComplete Raider2ArmorComplete Raider3ArmorComplete Fiend1ArmorComplete 
-	let aTempArray2 := Ar_List Fiend2ArmorComplete Fiend3ArmorComplete LootArmorCombatCombined 
+	let aTempArray2 := Ar_List Fiend2ArmorComplete Fiend3ArmorComplete LootArmorCombatCombined
 	Ar_Cat aTempArray aTempArray2
 
 	foreach aEntry <- aTempArray
 		let rEntryValue := aEntry["value"]
-		LeveledListAddForm rEntryValue rRaidLeveledList 1 1 1
+		LeveledListAddForm rEntryValue CIBSLootBackpackRaider 1 1 1
 	loop
 
 	;let aTempArray := Ar_List LL2Tier2ExplosivesMercenary35 LL0NPCWastelandTrinkets LL0NPCWastelandTrinkets50 LL0NPCWastelandTrinkets35
 
 	;foreach aEntry <- aTempArray
 	;	let rEntryValue := aEntry["value"]
-	;	LeveledListAddForm rEntryValue rAllBackpackLeveledList 1 1 1
+	;	LeveledListAddForm rEntryValue CIBSLootBackpackColorsAll 1 1 1
 	;loop
 
 	; backpacks look terrible on brotherhood power armor because the laser guns glitch through the backpacks. 
@@ -389,7 +184,6 @@ begin Function{}
 	;	let rEntryValue := aEntry["value"]
 	;	LeveledListAddForm rEntryValue CIBSFieldBackpackBROTHERHOOD 1 1 0.7
 	;loopff
-
 
 	print "CIBS Distribution Script ran successfully."
 end
